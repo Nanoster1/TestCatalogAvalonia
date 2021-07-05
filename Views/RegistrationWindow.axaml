@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:TestCatalogAvalonia.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+        x:Class="TestCatalogAvalonia.Views.RegistrationWindow"
+        Title="RegistrationWindow"
+        ExtendClientAreaToDecorationsHint="True"
+		    ExtendClientAreaChromeHints="NoChrome"
+		    ExtendClientAreaTitleBarHeightHint="-1">
+  <Grid ShowGridLines="True"
+        RowDefinitions="*,*,*,*,*">
+    <Label HorizontalAlignment="Center">Регистрация</Label>
+    <StackPanel Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                Grid.Row="2">
+      <Label>Ваc зовут:</Label>
+      <TextBox x:Name="Name"/>
+    </StackPanel>
+    <Button Grid.Row="3"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="btnAccept_Click">Принять
+    </Button>
+  </Grid>
+</Window>

@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns:converters="clr-namespace:TestCatalogAvalonia.Converters"
+        mc:Ignorable="d" d:DesignWidth="180" d:DesignHeight="100"
+				Width="180" Height="100"
+        x:Class="TestCatalogAvalonia.Views.WelcomeWindow"
+        Title="WelcomeWindow"
+				ExtendClientAreaToDecorationsHint="True"
+				ExtendClientAreaChromeHints="NoChrome"
+				ExtendClientAreaTitleBarHeightHint="-1"
+        Closing="WelcomeWindow_Closing">
+	<Window.Resources>
+		<converters:BitmapConverter x:Key="variableImage"/>
+	</Window.Resources>
+	<Grid ShowGridLines="True"
+		  ColumnDefinitions="*,Auto,*"
+		  RowDefinitions="*,Auto,*">
+		<TextBlock Grid.Column="1"
+				   Grid.Row="1"
+				   Text="{Binding Greeting}">Ваше имя
+		</TextBlock>
+		<Image Source="{Binding timeIMG, Converter={StaticResource variableImage}}"
+			   Grid.Column="2">
+		</Image>
+	</Grid>
+</Window>
