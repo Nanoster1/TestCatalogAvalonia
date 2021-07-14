@@ -25,7 +25,7 @@ namespace TestCatalogAvalonia.Views
         }
         private void WelcomeWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
-            (DataContext as WelcomeWindowViewModel).WelcomeWindow_Closing(this);
+            (DataContext as WelcomeWindowViewModel)?.WelcomeWindow_Closing();
         }
 
         private void InitializeComponent()

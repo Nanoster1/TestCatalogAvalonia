@@ -1,0 +1,61 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="using:TestCatalogAvalonia.Converters"
+		    mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
+		    Width="350" Height="400"
+        CanResize="False"
+        x:Class="TestCatalogAvalonia.Views.AddingWindow"
+        Title="AddingWindow"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="0">
+  
+	<Window.Resources>
+		<converters:BitmapConverter x:Key="ImageSourceConverter"/>
+    <converters:TagsConverter x:Key="TagsConverter"/>
+	</Window.Resources>
+  
+	<Grid ShowGridLines="True"
+		  RowDefinitions="*,4*,2*,*"
+		  ColumnDefinitions="*,5*,2*">
+    
+		<Viewbox>
+			<Label>Name:</Label>
+		</Viewbox>
+
+    <Viewbox  Grid.Column="1">
+		  <TextBox Text="{Binding LabelName}"/>
+    </Viewbox>
+
+    <Viewbox Grid.Column="2" Grid.Row="1" 
+             VerticalAlignment="Bottom">
+			<Button VerticalAlignment="Bottom" 
+              Command="{Binding btn_FileOpen_Click}"
+              CommandParameter="{Binding $parent[Window]}">Open File
+      </Button>
+		</Viewbox>
+
+		<Image  Source="{Binding ImageSource, Converter={StaticResource ImageSourceConverter}}"
+			      Grid.Column="1" Grid.Row="1"/>
+
+    <ScrollViewer Grid.Column="1" Grid.Row="2" Grid.RowSpan="2">
+      <ItemsRepeater Items="{Binding AllTags}" ElementPrepared="AddingWindow_ElementPrepared">
+        <ItemsRepeater.Layout>
+          <UniformGridLayout ItemsStretch="Uniform"/>
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+          <DataTemplate>
+            <CheckBox Content="{Binding, Converter={StaticResource TagsConverter}, ConverterParameter=False}"
+                      Click="cbx_AddTag_Click"/>
+          </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+      </ItemsRepeater>
+    </ScrollViewer>
+    
+		<Viewbox Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom">
+			<Button Command="{Binding btn_SaveItem_Click}" 
+              CommandParameter="{Binding $parent[Window]}">Save Item</Button>
+		</Viewbox>
+	</Grid>
+</Window>

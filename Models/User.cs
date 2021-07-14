@@ -7,7 +7,7 @@ using System.IO;
 using Newtonsoft.Json;
 namespace TestCatalogAvalonia.Models
 {
-    class User
+    public class User
     {
         public User(string name)
         {
@@ -22,8 +22,14 @@ namespace TestCatalogAvalonia.Models
         }
         public static void SaveUser(string name)
         {
+            File.WriteAllText($"{Environment.CurrentDirectory}\\ActiveUser.txt", name);
             string jsonStr = JsonConvert.SerializeObject(new User(name));
             File.WriteAllText(FileWorker.UserFolder.FullName + "\\UserInfo.json", jsonStr);
+        }
+        public static string? ActiveUser 
+        {
+            get => File.ReadAllText($"{Environment.CurrentDirectory}\\ActiveUser.txt");
+            set => File.WriteAllText($"{Environment.CurrentDirectory}\\ActiveUser.txt", value);
         }
     }
 }

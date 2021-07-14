@@ -10,10 +10,13 @@
 				ExtendClientAreaToDecorationsHint="True"
 				ExtendClientAreaChromeHints="NoChrome"
 				ExtendClientAreaTitleBarHeightHint="-1"
-        Closing="WelcomeWindow_Closing">
+        Closing="WelcomeWindow_Closing"
+        WindowStartupLocation="CenterScreen">
+  
 	<Window.Resources>
 		<converters:BitmapConverter x:Key="variableImage"/>
 	</Window.Resources>
+  
 	<Grid ShowGridLines="True"
 		  ColumnDefinitions="*,Auto,*"
 		  RowDefinitions="*,Auto,*">

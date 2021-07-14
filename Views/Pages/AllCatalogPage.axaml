@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+						 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TestCatalogAvalonia.ViewModels"
+             xmlns:converters="using:TestCatalogAvalonia.Converters"
+						 xmlns:components="using:TestCatalogAvalonia.Views.Components"
+						 mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
+						 MinWidth="700" MinHeight="450"
+             x:Name="AllCatalogPage"
+             x:Class="TestCatalogAvalonia.Views.Pages.AllCatalogPage">
+	
+	<UserControl.DataContext>
+		<vm:AllCatalogPageViewModel/>
+	</UserControl.DataContext>
+
+  <UserControl.Resources>
+    <converters:TagsConverter x:Key="TagsConverter"/>
+  </UserControl.Resources>
+	
+	<UserControl.Styles>
+		<Style Selector="Label.Menu">
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Grid.ColumnSpan" Value="2"/>
+		</Style>
+		
+		<Style Selector="CheckBox.Menu">
+			<Setter Property="HorizontalAlignment" Value="Right"/>
+			<Setter Property="Grid.Column" Value="3"/>
+		</Style>	
+	</UserControl.Styles>
+	
+	<Grid ShowGridLines="True"
+		  ColumnDefinitions="*,5*"
+		  RowDefinitions="2*,15*">
+		
+		<Viewbox>
+			<Label Content="Categories"/>
+		</Viewbox>
+		
+		<Viewbox Grid.Column="1">
+			<Label Content="Clothers"/>
+		</Viewbox>
+
+    <ScrollViewer Grid.Row="1">
+			<ItemsControl  Items="{Binding AllTags}">
+			  <ItemsControl.ItemTemplate>
+			    <DataTemplate>
+            <Grid ColumnDefinitions="2*,*,*">
+              <Label Grid.Column="0"
+                     Content="{Binding, Converter={StaticResource TagsConverter}, ConverterParameter=True}"
+                     VerticalAlignment="Center"/>
+              <CheckBox x:Name="{Binding}"
+                        Grid.Column="{Binding, Converter={StaticResource TagsConverter}}"
+                        Click="cbx_AddTag_Click"/>
+            </Grid>
+			    </DataTemplate>
+			  </ItemsControl.ItemTemplate>
+			  <ItemsControl.ItemsPanel>
+			    <ItemsPanelTemplate>
+			      <StackPanel Spacing="10"/>
+			    </ItemsPanelTemplate>
+			  </ItemsControl.ItemsPanel>
+			</ItemsControl>
+    </ScrollViewer>
+
+		<ListBox Grid.Column="1" Grid.Row="1" 
+						 Items="{Binding ActiveItems}"
+             SelectedItem="{Binding SelectedItem}"
+						 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<components:CellComponent DoubleTapped="CellComponent_DoubleTapped"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel Orientation="Horizontal" 
+							       ItemWidth="{Binding ItemsWidth}" ItemHeight="{Binding ItemsHeight}"/>
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+		</ListBox>
+		
+	</Grid>
+</UserControl>

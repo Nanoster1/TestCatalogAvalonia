@@ -7,6 +7,9 @@
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme Mode="Light"/>
+      <FluentTheme Mode="Light"/>
+      <Style Selector="Window">
+        <Setter Property="WindowStartupLocation" Value="CenterScreen"/>
+      </Style>
     </Application.Styles>
 </Application>

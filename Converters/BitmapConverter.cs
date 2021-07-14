@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TestCatalogAvalonia.Models;
 
 namespace TestCatalogAvalonia.Converters
 {
@@ -47,9 +48,15 @@ namespace TestCatalogAvalonia.Converters
                 }
 
                 var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-                var asset = assets.Open(uri);
-
-                return new Bitmap(asset);
+                try
+                {
+                    var asset = assets.Open(uri);
+                    return new Bitmap(asset);
+                }
+                catch
+                {
+                   return new Bitmap(rawUri);
+                }
             }
 
             throw new NotSupportedException();

@@ -8,10 +8,35 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.3" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.3" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.3" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.3" />
+    <AvaloniaXaml Remove="Users\**" />
+    <AvaloniaXaml Remove="User\**" />
+    <Compile Remove="Users\**" />
+    <Compile Remove="User\**" />
+    <EmbeddedResource Remove="Users\**" />
+    <EmbeddedResource Remove="User\**" />
+    <None Remove="Users\**" />
+    <None Remove="User\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaXaml Remove="Views\Components\SubMenuComponent.axaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Views\Components\SubMenuComponent.axaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ActiveUser.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
+    <PackageReference Include="MessageBox.Avalonia" Version="1.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Pages\AllCatalogPage.axaml.cs">
+      <DependentUpon>AllCatalogPage.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

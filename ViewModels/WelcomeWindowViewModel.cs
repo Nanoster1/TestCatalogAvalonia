@@ -9,13 +9,13 @@ using TestCatalogAvalonia.Views;
 
 namespace TestCatalogAvalonia.ViewModels
 {
-    class WelcomeWindowViewModel: ViewModelBase
+    public class WelcomeWindowViewModel: ViewModelBase
     {
         public WelcomeWindowViewModel() 
         { 
 
         }
-        public void WelcomeWindow_Closing(Window window)
+        public void WelcomeWindow_Closing()
         {
             var mainWindow = new MainWindow()
             {

@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+						 xmlns:vm="using:TestCatalogAvalonia.ViewModels"
+						 xmlns:converters="using:TestCatalogAvalonia.Converters"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="100"
+             x:Class="TestCatalogAvalonia.Views.Components.CellComponent">
+
+	<UserControl.Resources>
+		<converters:BitmapConverter x:Key="ImageConverter"/>
+		<converters:ApparelItemNameConverter x:Key="NameConverter"/>
+	</UserControl.Resources>
+	
+	<Border BorderThickness="1.5" BorderBrush="Black" Background="White">
+		<Grid ShowGridLines="True"
+			  RowDefinitions="4*,*">
+			<Image Source="{Binding ImageSource, Converter={StaticResource ImageConverter}}"
+				   HorizontalAlignment="Stretch"
+				   VerticalAlignment="Stretch"/>
+			<Viewbox  Grid.Row="1">
+				<Label Background="White"
+					 Content="{Binding Name}"/>
+			</Viewbox>
+		</Grid>
+	</Border>
+</UserControl>

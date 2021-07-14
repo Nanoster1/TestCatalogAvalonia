@@ -1,24 +1,20 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using TestCatalogAvalonia.ViewModels;
-using TestCatalogAvalonia.Views.Pages;
 
-namespace TestCatalogAvalonia.Views
+namespace TestCatalogAvalonia.Views.Components
 {
-    public partial class MainWindow : Window
+    public partial class CellComponent : UserControl
     {
-        public MainWindow()
+        public CellComponent()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
         }
+
     }
 }

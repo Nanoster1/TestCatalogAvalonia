@@ -1,17 +1,48 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:TestCatalogAvalonia.ViewModels"
+		xmlns:pg="using:TestCatalogAvalonia.Views.Pages"
+		xmlns:converters="using:TestCatalogAvalonia.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
+		MinWidth="700" MinHeight="450"
         x:Class="TestCatalogAvalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="TestCatalogAvalonia">
-  
+
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-  
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
+	<Window.Resources>
+		<converters:UserNameConverter x:Key="UserName"/>
+	</Window.Resources>
+  
+	<Grid ShowGridLines="True"
+		  ColumnDefinitions="9*,*">
+		<TabControl Grid.ColumnSpan="2">
+			<TabItem Header="Main">
+				
+			</TabItem>
+			<TabItem Header="AllCatalog">
+				<pg:AllCatalogPage x:Name="allCatalogPage" DataContext="{Binding AllCatalogPageContent}"/>
+			</TabItem>
+			<TabItem Header="Favorits">
+        
+			</TabItem>
+		</TabControl>
+		<StackPanel Grid.Column="1" >
+			<Viewbox>
+				<ComboBox PlaceholderText="{Binding User, Converter={StaticResource UserName}}"
+						  HorizontalAlignment="Right">
+
+				</ComboBox>
+			</Viewbox>
+			<Viewbox>
+				<Button Command="{Binding btn_AddingItem_Click}"
+                CommandParameter="{Binding $parent[Window]}">Add Item</Button>
+			</Viewbox>
+		</StackPanel>
+	</Grid>
 </Window>

@@ -4,11 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:TestCatalogAvalonia.ViewModels"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+		    Width="400" Height="200"
         x:Class="TestCatalogAvalonia.Views.RegistrationWindow"
         Title="RegistrationWindow"
         ExtendClientAreaToDecorationsHint="True"
 		    ExtendClientAreaChromeHints="NoChrome"
-		    ExtendClientAreaTitleBarHeightHint="-1">
+	      ExtendClientAreaTitleBarHeightHint="-1"
+	      Closing="RegistrationWindow_Closing">
   <Grid ShowGridLines="True"
         RowDefinitions="*,*,*,*,*">
     <Label HorizontalAlignment="Center">Регистрация</Label>
@@ -21,7 +23,8 @@
     <Button Grid.Row="3"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Click="btnAccept_Click">Принять
+            Click="btnAccept_Click"
+			IsEnabled="True">Принять
     </Button>
   </Grid>
 </Window>
