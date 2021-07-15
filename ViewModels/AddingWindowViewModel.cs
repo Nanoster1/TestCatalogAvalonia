@@ -20,6 +20,7 @@ namespace TestCatalogAvalonia.ViewModels
     {
         public AddingWindowViewModel(ApparelItem item, ObservableCollection<ApparelItem> allItems, bool isCretingItem)
         {
+            OldItem = item;
             Item = item;
             ActiveTags = new ObservableCollection<string>(item.Tags);
             Item.ImageSourceUpdate += (string value) => ImageSource = value;
@@ -27,11 +28,11 @@ namespace TestCatalogAvalonia.ViewModels
             ImageSource = Item.ImageSource;
             LabelName = Item.Name;
             AllItems = allItems;
-            IsCretingItem = isCretingItem;
+            IsCreatingItem = isCretingItem;
         }
 
         
-        private bool IsCretingItem { get; }
+        private bool IsCreatingItem { get; }
 
 
         private ObservableCollection<string> allTags = new ObservableCollection<string>(Services.GetAllTags());
@@ -47,6 +48,7 @@ namespace TestCatalogAvalonia.ViewModels
 
         private ApparelItem item;
         public ApparelItem Item { get => item; set => this.RaiseAndSetIfChanged(ref item, value); }
+        private ApparelItem OldItem { get; set; }
 
 
         private string imageSource;
@@ -66,29 +68,38 @@ namespace TestCatalogAvalonia.ViewModels
 
         public async void btn_SaveItem_Click(Window window)
         {
-            string oldName = Item.Name;
-            Item.Name = LabelName;
-            Item.Tags = ActiveTags.ToList();
-            try 
-            {
-                CopyImage(oldName);
+            if (Item.ImageSource == new ApparelItem().ImageSource)
+                MessageBoxManager.GetMessageBoxStandardWindow("Error", "Please, choose image").ShowDialog(window);
+            else 
+            { 
+                string oldName = Item.Name;
+                Item.Name = LabelName;
+                Item.Tags = ActiveTags.ToList();
+                window.Close();
+                await CopyImageAsync(oldName);
                 ApparelItem.SaveApparelItem(Item, oldName);
                 AddingItem();
-                window.Close();
             }
-            catch { MessageBoxManager.GetMessageBoxStandardWindow("Error", "Please, choose image").Show(); }
         }
-        private async void CopyImage(string oldName)
+        private Task CopyImageAsync(string oldName)
         {
-            item.ImageSource = await FileWorker.CopyImageAsync(item.ImageSource, "Temporary");
-            ApparelItem.DeleteApparelItem(oldName);
-            item.ImageSource = await FileWorker.CopyImageAsync(item.ImageSource, item.Name);
-            ApparelItem.DeleteApparelItem("Temporary");
+            return Task.Run(() =>
+            {
+                item.ImageSource = FileWorker.CopyImage(item.ImageSource, "Temporary");
+                ApparelItem.DeleteApparelItem(oldName);
+                item.ImageSource = FileWorker.CopyImage(item.ImageSource, item.Name);
+                ApparelItem.DeleteApparelItem("Temporary");
+            });
         }
         private void AddingItem() //Add Dialog (Repetitive name)
         {
-            if (IsCretingItem)
+            if (IsCreatingItem)
             {
+                AllItems.Add(Item);
+            }
+            else
+            {
+                AllItems.Remove(OldItem);
                 AllItems.Add(Item);
             }
         }

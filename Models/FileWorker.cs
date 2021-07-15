@@ -53,15 +53,12 @@ namespace TestCatalogAvalonia.Models
                 return new FileInfo(path);
             }
         }
-        public static Task<string> CopyImageAsync(string startPath, string name)
+        public static string CopyImage(string startPath, string name)
         {
-           return Task.Run(() =>
-           {
-               string folderPath = $"{ApparellItemFolder(name).FullName}";
-               string endPath = $"{folderPath}\\{name}.{startPath.Split(".")[^1]}";
-               File.Copy(startPath, endPath);
-               return endPath;
-           });
+            string folderPath = $"{ApparellItemFolder(name).FullName}";
+            string endPath = $"{folderPath}\\{name}.{startPath.Split(".")[^1]}";
+            File.Copy(startPath, endPath);
+            return endPath;
         }
     }
 }
