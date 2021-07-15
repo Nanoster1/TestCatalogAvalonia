@@ -22,13 +22,13 @@ namespace TestCatalogAvalonia.Views
 #endif
         }
 
+        private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
+
         private void AddingWindow_ElementPrepared(object? sender, ItemsRepeaterElementPreparedEventArgs e)
         {
             if ((DataContext as AddingWindowViewModel).ActiveTags.Contains(e.Element.DataContext))
                 (e.Element as CheckBox).IsChecked = true;
         }
-
-        private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
         private void cbx_AddTag_Click(object? sender, RoutedEventArgs e)
         {

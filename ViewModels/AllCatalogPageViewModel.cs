@@ -47,8 +47,8 @@ namespace TestCatalogAvalonia.ViewModels
         public User User { get => user; set => this.RaiseAndSetIfChanged(ref user, value); }
 
 
-        private ObservableCollection<string> allTags;
-        public ObservableCollection<string> AllTags { get => allTags; set => this.RaiseAndSetIfChanged(ref allTags, value); }
+        private ObservableCollection<Tag> allTags;
+        public ObservableCollection<Tag> AllTags { get => allTags; set => this.RaiseAndSetIfChanged(ref allTags, value); }
 
 
         private ObservableCollection<string> activeTags;
@@ -67,10 +67,21 @@ namespace TestCatalogAvalonia.ViewModels
         public double ItemsHeight { get => itemsHeight; set => this.RaiseAndSetIfChanged(ref itemsHeight, value); }
 
 
+        public bool filter = true;
+        public bool Filter { get => filter; set => this.RaiseAndSetIfChanged(ref filter, value); }
+
+
         public void UpdateActiveItems()
         { 
             if (AllItems != null)
-                ActiveItems = new ObservableCollection<ApparelItem>(AllItems.Where(x => ActiveTags.All(u => x.Tags.Contains(u))));
+            {
+                if (ActiveTags.Count == 0)
+                    ActiveItems = AllItems;
+                else if (Filter)
+                    ActiveItems = new ObservableCollection<ApparelItem>(AllItems.Where(x => x.Tags.Any(x => ActiveTags.Contains(x))));
+                else
+                    ActiveItems = new ObservableCollection<ApparelItem>(AllItems.Where(x => ActiveTags.All(u => x.Tags.Contains(u))));
+            }
         }
 
         private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -90,6 +101,22 @@ namespace TestCatalogAvalonia.ViewModels
         {
             var addingWindow = new AddingWindow() { DataContext = new AddingWindowViewModel(SelectedItem, AllItems, false) };
             addingWindow.ShowDialog(window);
+        }
+
+        public void SetTagsVisibility(Controls controls)
+        {
+            controls[1].IsVisible = !controls[1].IsVisible;
+        }
+
+        public void MainTag_Click(bool isChecked, ObservableCollection<string> tags)
+        {
+            foreach (var tag in tags)
+            {
+                if (isChecked && !ActiveTags.Contains(tag))
+                    ActiveTags.Add(tag);
+                else if (!isChecked && ActiveTags.Contains(tag))
+                    ActiveTags.Remove(tag);
+            }
         }
     }
 }

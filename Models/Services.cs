@@ -30,9 +30,16 @@ namespace TestCatalogAvalonia.Models
             var user = JsonConvert.DeserializeObject<User>(jsonStr);
             return user;
         }
-        public static string[] GetAllTags()
+        public static List<Tag> GetAllTags()
         {
-            return File.ReadAllLines(FileWorker.TagsFile.FullName);
+            var tags = File.ReadAllLines(FileWorker.TagsFile.FullName);
+            var Tags = new List<Tag>();
+            foreach(var tag in tags)
+            {
+                if (tag.Contains("!")) { Tags.Add(new Tag(tag.Replace("!", ""))); }
+                else { Tags[^1].Subtags.Add(tag); }
+            }
+            return Tags;
         }
     }
 }

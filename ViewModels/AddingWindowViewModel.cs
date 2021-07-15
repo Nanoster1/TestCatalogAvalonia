@@ -35,7 +35,7 @@ namespace TestCatalogAvalonia.ViewModels
         private bool IsCreatingItem { get; }
 
 
-        private ObservableCollection<string> allTags = new ObservableCollection<string>(Services.GetAllTags());
+        private ObservableCollection<string> allTags = new ObservableCollection<string>(Services.GetAllTags().SelectMany(x=> x.Subtags));
         public ObservableCollection<string> AllTags { get => allTags; set => this.RaiseAndSetIfChanged(ref allTags, value); }
 
 

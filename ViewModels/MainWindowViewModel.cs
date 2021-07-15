@@ -29,8 +29,8 @@ namespace TestCatalogAvalonia.ViewModels
         public User User { get => user; set => this.RaiseAndSetIfChanged(ref user, value); }
 
 
-        private ObservableCollection<string> allTags = new ObservableCollection<string>(Services.GetAllTags());
-        public ObservableCollection<string> AllTags { get => allTags; set => this.RaiseAndSetIfChanged(ref allTags, value); }
+        private ObservableCollection<Tag> allTags = new ObservableCollection<Tag>(Services.GetAllTags());
+        public ObservableCollection<Tag> AllTags { get => allTags; set => this.RaiseAndSetIfChanged(ref allTags, value); }
 
 
         AllCatalogPageViewModel AllCatalogPageContent { get => new AllCatalogPageViewModel() { AllItems = AllItems, AllTags = AllTags }; }
