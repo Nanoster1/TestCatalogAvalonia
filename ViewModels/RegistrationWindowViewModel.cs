@@ -1,17 +1,10 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using TestCatalogAvalonia.Models;
 using TestCatalogAvalonia.Views;
 
 namespace TestCatalogAvalonia.ViewModels
 {
-    public class RegistrationWindowViewModel: ViewModelBase
+    public class RegistrationWindowViewModel : ViewModelBase
     {
         public void btnAccept_Click(Window window, string name)
         {

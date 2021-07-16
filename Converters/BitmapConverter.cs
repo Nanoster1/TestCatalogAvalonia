@@ -1,16 +1,10 @@
 ﻿using Avalonia;
 using Avalonia.Data.Converters;
-using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using System;
-using System.Collections.Generic;
-using Avalonia.Media.Imaging;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using TestCatalogAvalonia.Models;
 
 namespace TestCatalogAvalonia.Converters
 {
@@ -55,7 +49,7 @@ namespace TestCatalogAvalonia.Converters
                 }
                 catch
                 {
-                   return new Bitmap(rawUri);
+                    return new Bitmap(rawUri);
                 }
             }
 

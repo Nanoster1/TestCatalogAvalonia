@@ -1,13 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
-using TestCatalogAvalonia.Models;
 using TestCatalogAvalonia.ViewModels;
 
 namespace TestCatalogAvalonia.Views
@@ -37,9 +33,9 @@ namespace TestCatalogAvalonia.Views
         }
         private void SetIsCheckedProperty(object? sender, EventArgs e)
         {
-            
+
             var checkboxes = this.LogicalChildren.Where(x => x is CheckBox);
-            
+
         }
     }
 }

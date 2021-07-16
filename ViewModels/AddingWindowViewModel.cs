@@ -1,22 +1,16 @@
 ﻿
 using Avalonia.Controls;
-using Avalonia.Controls.Selection;
-using Avalonia.Media;
+using MessageBox.Avalonia;
+using MessageBox.Avalonia.DTO;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive;
-using System.Text;
 using System.Threading.Tasks;
 using TestCatalogAvalonia.Models;
-using TestCatalogAvalonia.Views;
-using MessageBox.Avalonia;
 
 namespace TestCatalogAvalonia.ViewModels
 {
-    public class AddingWindowViewModel: ViewModelBase
+    public class AddingWindowViewModel : ViewModelBase
     {
         public AddingWindowViewModel(ApparelItem item, ObservableCollection<ApparelItem> allItems, bool isCretingItem)
         {
@@ -31,11 +25,11 @@ namespace TestCatalogAvalonia.ViewModels
             IsCreatingItem = isCretingItem;
         }
 
-        
+
         private bool IsCreatingItem { get; }
 
 
-        private ObservableCollection<string> allTags = new ObservableCollection<string>(Services.GetAllTags().SelectMany(x=> x.Subtags));
+        private ObservableCollection<string> allTags = new ObservableCollection<string>(Services.GetAllTags().SelectMany(x => x.Subtags));
         public ObservableCollection<string> AllTags { get => allTags; set => this.RaiseAndSetIfChanged(ref allTags, value); }
 
 
@@ -70,8 +64,14 @@ namespace TestCatalogAvalonia.ViewModels
         {
             if (Item.ImageSource == new ApparelItem().ImageSource)
                 MessageBoxManager.GetMessageBoxStandardWindow("Error", "Please, choose image").ShowDialog(window);
-            else 
-            { 
+            else if (AllItems.Any(x => x.Name == LabelName)) 
+            {
+                /*var @params = new MessageBoxCustomParams();
+                @params.
+                MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams());*/
+            }
+            else
+            {
                 string oldName = Item.Name;
                 Item.Name = LabelName;
                 Item.Tags = ActiveTags.ToList();

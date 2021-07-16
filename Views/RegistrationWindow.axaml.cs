@@ -2,9 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using TestCatalogAvalonia.ViewModels;
 using MessageBox.Avalonia;
 using System.ComponentModel;
+using TestCatalogAvalonia.ViewModels;
 
 namespace TestCatalogAvalonia.Views
 {

@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace TestCatalogAvalonia.Models
@@ -34,7 +32,7 @@ namespace TestCatalogAvalonia.Models
         {
             var tags = File.ReadAllLines(FileWorker.TagsFile.FullName);
             var Tags = new List<Tag>();
-            foreach(var tag in tags)
+            foreach (var tag in tags)
             {
                 if (tag.Contains("!")) { Tags.Add(new Tag(tag.Replace("!", ""))); }
                 else { Tags[^1].Subtags.Add(tag); }

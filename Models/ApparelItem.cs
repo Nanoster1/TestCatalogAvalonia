@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace TestCatalogAvalonia.Models
 {
@@ -45,8 +42,8 @@ namespace TestCatalogAvalonia.Models
         }
         public static void DeleteApparelItem(string name)
         {
-            
-                Directory.Delete(FileWorker.ApparellItemFolder(name).FullName, true);
+
+            Directory.Delete(FileWorker.ApparellItemFolder(name).FullName, true);
         }
     }
 }

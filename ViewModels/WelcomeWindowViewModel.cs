@@ -1,18 +1,13 @@
-﻿using Avalonia.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using TestCatalogAvalonia.Models;
 using TestCatalogAvalonia.Views;
 
 namespace TestCatalogAvalonia.ViewModels
 {
-    public class WelcomeWindowViewModel: ViewModelBase
+    public class WelcomeWindowViewModel : ViewModelBase
     {
-        public WelcomeWindowViewModel() 
-        { 
+        public WelcomeWindowViewModel()
+        {
 
         }
         public void WelcomeWindow_Closing()
@@ -29,7 +24,7 @@ namespace TestCatalogAvalonia.ViewModels
         {
             get
             {
-                if (DateTime.Now.Hour >= new DateTime().AddHours(6).Hour && 
+                if (DateTime.Now.Hour >= new DateTime().AddHours(6).Hour &&
                     DateTime.Now.Hour <= new DateTime().AddHours(21).Hour)
                     return "/Assets/WelcomeIMG/Sun.png";
                 return "/Assets/WelcomeIMG/Moon.png";

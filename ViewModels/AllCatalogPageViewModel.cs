@@ -1,14 +1,8 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using TestCatalogAvalonia.Models;
 using TestCatalogAvalonia.Views;
 
@@ -55,7 +49,7 @@ namespace TestCatalogAvalonia.ViewModels
         public ObservableCollection<string> ActiveTags
         {
             get => activeTags;
-            set { this.RaiseAndSetIfChanged(ref activeTags, value); ActiveTags.CollectionChanged += CollectionChanged; } 
+            set { this.RaiseAndSetIfChanged(ref activeTags, value); ActiveTags.CollectionChanged += CollectionChanged; }
         }
 
 
@@ -72,7 +66,7 @@ namespace TestCatalogAvalonia.ViewModels
 
 
         public void UpdateActiveItems()
-        { 
+        {
             if (AllItems != null)
             {
                 if (ActiveTags.Count == 0)

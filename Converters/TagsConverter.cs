@@ -1,10 +1,6 @@
 ﻿using Avalonia.Data.Converters;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestCatalogAvalonia.Converters
 {
@@ -14,9 +10,9 @@ namespace TestCatalogAvalonia.Converters
         {
             if (value is string strValue)
             {
-                if (bool.TryParse(parameter as string, out bool isMenu)) 
+                if (bool.TryParse(parameter as string, out bool isMenu))
                 {
-                    
+
                     if (strValue.Contains("!"))
                         return strValue.Replace("!", "").ToUpper();
                     else if (isMenu)

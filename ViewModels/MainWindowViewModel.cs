@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TestCatalogAvalonia.Views;
-using TestCatalogAvalonia.Models;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using ReactiveUI;
-using System.Linq;
-using System.Collections.Specialized;
 using Avalonia.Controls;
+using ReactiveUI;
+using System.Collections.ObjectModel;
+using TestCatalogAvalonia.Models;
+using TestCatalogAvalonia.Views;
 
 namespace TestCatalogAvalonia.ViewModels
 {

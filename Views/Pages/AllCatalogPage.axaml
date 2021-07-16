@@ -1,22 +1,17 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-						 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:TestCatalogAvalonia.ViewModels"
-             xmlns:converters="using:TestCatalogAvalonia.Converters"
-						 xmlns:components="using:TestCatalogAvalonia.Views.Components"
-						 mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
-						 MinWidth="700" MinHeight="450"
+		     xmlns:components="using:TestCatalogAvalonia.Views.Components"
+		     mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
+		     MinWidth="700" MinHeight="450"
              x:Name="AllCatalogPage"
              x:Class="TestCatalogAvalonia.Views.Pages.AllCatalogPage">
 	
 	<UserControl.DataContext>
 		<vm:AllCatalogPageViewModel/>
 	</UserControl.DataContext>
-
-  <UserControl.Resources>
-    <converters:TagsConverter x:Key="TagsConverter"/>
-  </UserControl.Resources>
 	
 	<UserControl.Styles>
 		<Style Selector="Label.Menu">
@@ -42,57 +37,15 @@
 			<Label Content="Clothers"/>
 		</Viewbox>
 
-    <ScrollViewer Grid.Row="1">
-			<ItemsControl  Items="{Binding AllTags}">
-			  <ItemsControl.ItemTemplate>
-			    <DataTemplate>
-					<StackPanel Spacing="3">
-						<Grid ColumnDefinitions="4*,*">
-							<StackPanel Orientation="Horizontal" Spacing="3">
-								<Label Content="{Binding Name}" VerticalAlignment="Center"/>
-								<Button Content="Click"
-										CommandParameter="{Binding $parent[StackPanel;1].Children}" 
-										Command="{Binding $parent[UserControl].DataContext.SetTagsVisibility}"/>
-							</StackPanel>
-							<CheckBox Grid.Column="1" HorizontalAlignment="Left" 
-									  Click="cbx_AddMainTag_Click"/>
-						</Grid>
-						<ItemsControl Items="{Binding Subtags}" IsVisible="False">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<Grid ColumnDefinitions="3*,*,*">
-									  <Label Grid.Column="0"
-									         Content="{Binding, Converter={StaticResource TagsConverter}, ConverterParameter=True}"
-									         VerticalAlignment="Center"/>
-									  <CheckBox x:Name="{Binding}"
-									            Grid.Column="{Binding, Converter={StaticResource TagsConverter}}"
-												IsChecked="{Binding $parent[ItemsControl].DataContext.IsActive, Mode=OneWay}"
-									            Click="cbx_AddTag_Click"/>
-									</Grid>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-							<ItemsControl.ItemsPanel>
-								<ItemsPanelTemplate>
-									<StackPanel Spacing="3"/>
-								</ItemsPanelTemplate>
-							</ItemsControl.ItemsPanel>
-						</ItemsControl>
-					</StackPanel>
-			    </DataTemplate>
-			  </ItemsControl.ItemTemplate>
-			  <ItemsControl.ItemsPanel>
-			    <ItemsPanelTemplate>
-			      <StackPanel Spacing="10"/>
-			    </ItemsPanelTemplate>
-			  </ItemsControl.ItemsPanel>
-			</ItemsControl>
-    </ScrollViewer>
+		<ScrollViewer Grid.Row="1">
+			<components:TagsComponent/>
+		</ScrollViewer>
 
 		<ListBox Grid.Column="1" Grid.Row="1" 
 				 Items="{Binding ActiveItems}"
 				 SelectedItem="{Binding SelectedItem}"
 				 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-			Background="White">
+				 Background="White">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<components:CellComponent DoubleTapped="CellComponent_DoubleTapped"/>
