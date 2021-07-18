@@ -5,7 +5,7 @@ using System.IO;
 
 namespace TestCatalogAvalonia.Models
 {
-    public class ApparelItem
+    public class ApparelItem: IEquatable<ApparelItem>
     {
         public ApparelItem(string name = "NameNotFound")
         {
@@ -44,6 +44,11 @@ namespace TestCatalogAvalonia.Models
         {
 
             Directory.Delete(FileWorker.ApparellItemFolder(name).FullName, true);
+        }
+
+        public bool Equals(ApparelItem? other)
+        {
+            return Name == other.Name;
         }
     }
 }

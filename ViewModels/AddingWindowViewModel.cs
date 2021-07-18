@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
+using MessageBox.Avalonia.Enums;
 using ReactiveUI;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -63,23 +64,43 @@ namespace TestCatalogAvalonia.ViewModels
         public async void btn_SaveItem_Click(Window window)
         {
             if (Item.ImageSource == new ApparelItem().ImageSource)
-                MessageBoxManager.GetMessageBoxStandardWindow("Error", "Please, choose image").ShowDialog(window);
-            else if (AllItems.Any(x => x.Name == LabelName)) 
             {
-                /*var @params = new MessageBoxCustomParams();
-                @params.
-                MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams());*/
+                MessageBoxManager.GetMessageBoxStandardWindow("Error", "Please, choose image").ShowDialog(window);
+            }
+            else if (IsCreatingItem && AllItems.Any(x => x.Name == LabelName))
+            {
+                var result = await MessageBoxManager
+                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams
+                    {
+                        ContentTitle = "Warning",
+                        ContentMessage = "An element with this name already exists, replace it?",
+                        ButtonDefinitions = ButtonEnum.OkCancel,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner
+                    }).ShowDialog(window);
+                if (result == ButtonResult.Cancel)
+                    return;
+                AllItems.Remove(new ApparelItem(LabelName));
+                AllItems.Add(Item);
+                OldItem.Name = LabelName;
+                SaveItem(window);
             }
             else
             {
-                string oldName = Item.Name;
-                Item.Name = LabelName;
-                Item.Tags = ActiveTags.ToList();
-                window.Close();
-                await CopyImageAsync(oldName);
-                ApparelItem.SaveApparelItem(Item, oldName);
-                AddingItem();
+                
+                AllItems.Remove(OldItem);
+                AllItems.Add(Item);
+                SaveItem(window);
             }
+        }
+        private async void SaveItem(Window window)
+        {
+            string oldName = OldItem.Name;
+            Item.Name = LabelName;
+            Item.Tags = ActiveTags.ToList();
+            window.Close();
+            await CopyImageAsync(oldName);
+            ApparelItem.SaveApparelItem(Item, oldName);
+            
         }
         private Task CopyImageAsync(string oldName)
         {
@@ -90,18 +111,6 @@ namespace TestCatalogAvalonia.ViewModels
                 item.ImageSource = FileWorker.CopyImage(item.ImageSource, item.Name);
                 ApparelItem.DeleteApparelItem("Temporary");
             });
-        }
-        private void AddingItem() //Add Dialog (Repetitive name)
-        {
-            if (IsCreatingItem)
-            {
-                AllItems.Add(Item);
-            }
-            else
-            {
-                AllItems.Remove(OldItem);
-                AllItems.Add(Item);
-            }
         }
 
 

@@ -18,7 +18,7 @@ namespace TestCatalogAvalonia.Models
             var folders = FileWorker.WardrobeFolder.GetDirectories();
             for (int i = 0; i < folders.Length; i++)
             {
-                apparelItems.Add(ApparelItem.GetApparelItem(folders[i].GetFiles().FirstOrDefault(x => x.FullName.Contains(".json")).FullName));
+                try { apparelItems.Add(ApparelItem.GetApparelItem(folders[i].GetFiles().FirstOrDefault(x => x.FullName.Contains(".json")).FullName)); } catch { }
             }
             return apparelItems;
         }

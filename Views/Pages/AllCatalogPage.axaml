@@ -1,17 +1,15 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:TestCatalogAvalonia.ViewModels"
-		     xmlns:components="using:TestCatalogAvalonia.Views.Components"
-		     mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
-		     MinWidth="700" MinHeight="450"
+				     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TestCatalogAvalonia.ViewModels.AllCatalogPage"
+					   xmlns:components="using:TestCatalogAvalonia.Views.Components"
+					   mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
+					   MinWidth="700" MinHeight="450"
              x:Name="AllCatalogPage"
              x:Class="TestCatalogAvalonia.Views.Pages.AllCatalogPage">
 	
-	<UserControl.DataContext>
-		<vm:AllCatalogPageViewModel/>
-	</UserControl.DataContext>
+
 	
 	<UserControl.Styles>
 		<Style Selector="Label.Menu">
@@ -41,23 +39,48 @@
 			<components:TagsComponent/>
 		</ScrollViewer>
 
-		<ListBox Grid.Column="1" Grid.Row="1" 
-				 Items="{Binding ActiveItems}"
-				 SelectedItem="{Binding SelectedItem}"
-				 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-				 Background="White">
-			<ListBox.ItemTemplate>
-				<DataTemplate>
-					<components:CellComponent DoubleTapped="CellComponent_DoubleTapped"/>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-			<ListBox.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel Orientation="Horizontal" 
-							       ItemWidth="{Binding ItemsWidth}" ItemHeight="{Binding ItemsHeight}"/>
-				</ItemsPanelTemplate>
-			</ListBox.ItemsPanel>
-		</ListBox>
-		
+    <UserControl x:Name="Bar" Background="Black" Grid.Column="1" Grid.Row="1" >
+     <ProgressBar x:Name="ProgressBar" 
+		 						  Minimum="0" Maximum="100"
+                  Background="Black">
+     </ProgressBar>
+    </UserControl>
+    <Grid Grid.Column="1" Grid.Row="1"
+          RowDefinitions="11*,*"
+					ShowGridLines="True">
+      <ScrollViewer>
+				<ItemsRepeater Items="{Binding ActiveItems}"
+                       ElementPrepared="">
+					<ItemsRepeater.ItemTemplate>
+						<DataTemplate>
+				      <components:CellComponent DoubleTapped="CellComponent_DoubleTapped"/>
+						</DataTemplate>
+					</ItemsRepeater.ItemTemplate>
+				  <ItemsRepeater.Layout>
+				    <UniformGridLayout MinColumnSpacing="10" MinRowSpacing="10" ItemsJustification="Center"/>
+				  </ItemsRepeater.Layout>
+				</ItemsRepeater>
+      </ScrollViewer>
+      <Viewbox Grid.Row="1">
+				<ListBox Items="{Binding AllPages}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 SelectedItem="{Binding SelectedPage}">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Border>
+                <TextBlock Text="{Binding}"/>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>	  
+				</ListBox>
+      </Viewbox>
+		</Grid>
+  
 	</Grid>
 </UserControl>

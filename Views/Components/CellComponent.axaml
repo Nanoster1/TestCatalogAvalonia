@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 						 xmlns:vm="using:TestCatalogAvalonia.ViewModels"
 						 xmlns:converters="using:TestCatalogAvalonia.Converters"
-             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="100"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="250"
+             Width="200" Height="250"
              x:Class="TestCatalogAvalonia.Views.Components.CellComponent">
 
 	<UserControl.Resources>
@@ -13,11 +14,10 @@
 	</UserControl.Resources>
 	
 	<Border BorderThickness="1.5" BorderBrush="Black" Background="White">
-		<Grid ShowGridLines="True"
-			  RowDefinitions="4*,*">
+		<Grid ShowGridLines="False"
+			  RowDefinitions="200,50">
 			<Image Source="{Binding ImageSource, Converter={StaticResource ImageConverter}}"
-				   HorizontalAlignment="Stretch"
-				   VerticalAlignment="Stretch"/>
+             Stretch="Uniform" />
 			<Viewbox  Grid.Row="1">
 				<Label Background="White"
 					 Content="{Binding Name}"/>

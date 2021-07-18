@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using TestCatalogAvalonia.Models;
-using TestCatalogAvalonia.ViewModels;
+using TestCatalogAvalonia.ViewModels.AllCatalogPage;
 
 namespace TestCatalogAvalonia.Views.Components
 {

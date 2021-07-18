@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using ReactiveUI;
 using System.Collections.ObjectModel;
 using TestCatalogAvalonia.Models;
+using TestCatalogAvalonia.ViewModels.AllCatalogPage;
 using TestCatalogAvalonia.Views;
 
 namespace TestCatalogAvalonia.ViewModels
