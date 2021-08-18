@@ -1,11 +1,11 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-				     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:TestCatalogAvalonia.ViewModels.AllCatalogPage"
-					   xmlns:components="using:TestCatalogAvalonia.Views.Components"
-					   mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
-					   MinWidth="700" MinHeight="450"
+			       xmlns:components="using:TestCatalogAvalonia.Views.Components"
+			       mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
+			       MinWidth="700" MinHeight="450"
              x:Name="AllCatalogPage"
              x:Class="TestCatalogAvalonia.Views.Pages.AllCatalogPage">
 	
@@ -22,12 +22,12 @@
 			<Setter Property="Grid.Column" Value="3"/>
 		</Style>	
 	</UserControl.Styles>
-	
+  
 	<Grid ShowGridLines="True"
 		  ColumnDefinitions="*,5*"
 		  RowDefinitions="2*,15*">
 		
-		<Viewbox>
+		<Viewbox VerticalAlignment="Bottom">
 			<Label Content="Categories"/>
 		</Viewbox>
 		
@@ -35,37 +35,43 @@
 			<Label Content="Clothers"/>
 		</Viewbox>
 
+    <StackPanel Grid.Column="1" 
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+      <TextBox HorizontalContentAlignment="Center"
+               Width="100"
+               Watermark="Search"
+               Text="{Binding SearchString}"/>
+    </StackPanel>
+
 		<ScrollViewer Grid.Row="1">
 			<components:TagsComponent/>
 		</ScrollViewer>
 
-    <UserControl x:Name="Bar" Background="Black" Grid.Column="1" Grid.Row="1" >
-     <ProgressBar x:Name="ProgressBar" 
-		 						  Minimum="0" Maximum="100"
-                  Background="Black">
-     </ProgressBar>
-    </UserControl>
     <Grid Grid.Column="1" Grid.Row="1"
           RowDefinitions="11*,*"
-					ShowGridLines="True">
-      <ScrollViewer>
-				<ItemsRepeater Items="{Binding ActiveItems}"
-                       ElementPrepared="">
-					<ItemsRepeater.ItemTemplate>
-						<DataTemplate>
-				      <components:CellComponent DoubleTapped="CellComponent_DoubleTapped"/>
-						</DataTemplate>
-					</ItemsRepeater.ItemTemplate>
-				  <ItemsRepeater.Layout>
-				    <UniformGridLayout MinColumnSpacing="10" MinRowSpacing="10" ItemsJustification="Center"/>
-				  </ItemsRepeater.Layout>
-				</ItemsRepeater>
-      </ScrollViewer>
+		  ShowGridLines="True">
+			<ListBox Items="{Binding ActiveItems}"
+               Background="White"
+               SelectedItem="{Binding SelectedItem}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <components:CellComponent HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      DoubleTapped="CellComponent_DoubleTapped"/>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Rows="2" Columns="5" HorizontalAlignment="Center"/>
+          </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+			</ListBox>
       <Viewbox Grid.Row="1">
-				<ListBox Items="{Binding AllPages}"
+        <ListBox Items="{Binding PageParameters.Pages}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                 SelectedItem="{Binding SelectedPage}">
+                 SelectedItem="{Binding PageParameters.CurrentPage}">
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
               <WrapPanel Orientation="Horizontal"/>
@@ -77,10 +83,9 @@
                 <TextBlock Text="{Binding}"/>
               </Border>
             </DataTemplate>
-          </ListBox.ItemTemplate>	  
-				</ListBox>
+          </ListBox.ItemTemplate>
+        </ListBox>
       </Viewbox>
 		</Grid>
-  
 	</Grid>
 </UserControl>

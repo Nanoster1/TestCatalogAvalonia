@@ -1,13 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
 using System.Threading;
 using System.Threading.Tasks;
-using TestCatalogAvalonia.ViewModels;
 
 namespace TestCatalogAvalonia.Views
 {
-    public partial class WelcomeWindow : Window
+    public partial class WelcomeWindow : ReactiveWindow<WelcomeWindowViewModel>
     {
         public WelcomeWindow()
         {
@@ -19,12 +19,12 @@ namespace TestCatalogAvalonia.Views
         }
         private async void StopWelcome()
         {
-            await Task.Run(() => Thread.Sleep(5000));
+            await Task.Delay(5000);
             this.Close();
         }
         private void WelcomeWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
-            (DataContext as WelcomeWindowViewModel)?.WelcomeWindow_Closing();
+            ViewModel?.WelcomeWindow_Closing();
         }
 
         private void InitializeComponent()

@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using TestCatalogAvalonia.Models;
-using TestCatalogAvalonia.ViewModels.AllCatalogPage;
+using TestCatalogAvalonia.Views.Pages;
 
 namespace TestCatalogAvalonia.Views.Components
 {
@@ -22,10 +22,6 @@ namespace TestCatalogAvalonia.Views.Components
         {
             var mainTag = (sender as CheckBox).DataContext as Tag;
             mainTag.IsActive = !mainTag.IsActive;
-            for (int i = 0; i < mainTag.Subtags.Count; i++)
-            {
-                mainTag.Subtags[i] = mainTag.Subtags[i];
-            }
             (DataContext as AllCatalogPageViewModel).MainTag_Click(mainTag.IsActive, mainTag.Subtags);
         }
 

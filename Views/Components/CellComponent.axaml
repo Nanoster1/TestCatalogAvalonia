@@ -5,15 +5,13 @@
 						 xmlns:vm="using:TestCatalogAvalonia.ViewModels"
 						 xmlns:converters="using:TestCatalogAvalonia.Converters"
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="250"
-             Width="200" Height="250"
              x:Class="TestCatalogAvalonia.Views.Components.CellComponent">
 
 	<UserControl.Resources>
 		<converters:BitmapConverter x:Key="ImageConverter"/>
-		<converters:ApparelItemNameConverter x:Key="NameConverter"/>
 	</UserControl.Resources>
 	
-	<Border BorderThickness="1.5" BorderBrush="Black" Background="White">
+	<Border BorderThickness="1" BorderBrush="Black" Background="White">
 		<Grid ShowGridLines="False"
 			  RowDefinitions="200,50">
 			<Image Source="{Binding ImageSource, Converter={StaticResource ImageConverter}}"

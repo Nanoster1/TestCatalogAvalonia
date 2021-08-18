@@ -12,22 +12,43 @@ namespace TestCatalogAvalonia.Models
         {
             return new Task<List<ApparelItem>>(GetAllApparelItems);
         }
+        /// <summary>
+        /// This method is only used in the main window to get all items in SourceCache, 
+        /// then pass _allItems where needed, 
+        /// it will be more efficient than this method and will update items everywhere
+        /// </summary>
+        /// <returns>Returns all items directly from files</returns>
         public static List<ApparelItem> GetAllApparelItems()
         {
-            List<ApparelItem> apparelItems = new List<ApparelItem>();
+            var apparelItems = new List<ApparelItem>();
             var folders = FileWorker.WardrobeFolder.GetDirectories();
-            for (int i = 0; i < folders.Length; i++)
+            foreach(var folder in folders)
             {
-                try { apparelItems.Add(ApparelItem.GetApparelItem(folders[i].GetFiles().FirstOrDefault(x => x.FullName.Contains(".json")).FullName)); } catch { }
+                apparelItems.Add(ApparelItem.GetApparelItem(folder?.GetFiles().First(x => x.FullName.Contains(".json"))?.FullName));
             }
             return apparelItems;
         }
-        public static User GetUser()
+
+        /// <summary>
+        /// Returns all users
+        /// </summary>
+        /// <returns>All users from their folders</returns>
+        public static IEnumerable<User> GetUsers()
         {
-            string jsonStr = File.ReadAllText(FileWorker.UserInfo.FullName);
-            var user = JsonConvert.DeserializeObject<User>(jsonStr);
-            return user;
+            var userFiles = FileWorker.AllUsersFolder.GetDirectories().SelectMany(x => x.GetFiles("UserInfo.json"));
+            var users = userFiles
+                .Select(x => File.ReadAllText(x.FullName))
+                .Select(x => JsonConvert.DeserializeObject<User>(x))
+                .Where(x => x != null);
+            return users;
         }
+
+        /// <summary>
+        /// This method is only used in the main window to get all items in SourceCache, 
+        /// then pass _allTags where needed, 
+        /// it will be more efficient than this method and will update items everywhere
+        /// </summary>
+        /// <returns>Returns all tags directly from files</returns>
         public static List<Tag> GetAllTags()
         {
             var tags = File.ReadAllLines(FileWorker.TagsFile.FullName);

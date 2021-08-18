@@ -6,11 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
 		    Width="400" Height="200"
         x:Class="TestCatalogAvalonia.Views.RegistrationWindow"
-        Title="RegistrationWindow"
-        ExtendClientAreaToDecorationsHint="True"
-		    ExtendClientAreaChromeHints="NoChrome"
-	      ExtendClientAreaTitleBarHeightHint="-1"
-	      Closing="RegistrationWindow_Closing">
+        Title="RegistrationWindow">
   <Grid ShowGridLines="True"
         RowDefinitions="*,*,*,*,*">
     <Label HorizontalAlignment="Center">Регистрация</Label>
@@ -18,13 +14,14 @@
                 HorizontalAlignment="Center"
                 Grid.Row="2">
       <Label>Ваc зовут:</Label>
-      <TextBox x:Name="Name"/>
+      <TextBox x:Name="Name"
+               Text="{Binding UserName}"/>
     </StackPanel>
     <Button Grid.Row="3"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Click="btnAccept_Click"
-			IsEnabled="True">Принять
+            Command="{Binding AcceptUser}"
+			      IsEnabled="True">Принять
     </Button>
   </Grid>
 </Window>

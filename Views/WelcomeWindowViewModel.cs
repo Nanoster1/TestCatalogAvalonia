@@ -2,7 +2,7 @@
 using TestCatalogAvalonia.Models;
 using TestCatalogAvalonia.Views;
 
-namespace TestCatalogAvalonia.ViewModels
+namespace TestCatalogAvalonia.Views
 {
     public class WelcomeWindowViewModel : ViewModelBase
     {
@@ -18,14 +18,14 @@ namespace TestCatalogAvalonia.ViewModels
             };
             mainWindow.Show();
         }
-        public User User { get; private set; } = User.GetUser();
+        public User User { get; private set; } = User.ActiveUser;
         public string Greeting => $"Hi, {User.Name}";
-        public string timeIMG
+        public string TimeIMG
         {
             get
             {
-                if (DateTime.Now.Hour >= new DateTime().AddHours(6).Hour &&
-                    DateTime.Now.Hour <= new DateTime().AddHours(21).Hour)
+                if (DateTime.Now.Hour >= 6 &&
+                    DateTime.Now.Hour <= 21)
                     return "/Assets/WelcomeIMG/Sun.png";
                 return "/Assets/WelcomeIMG/Moon.png";
             }

@@ -2,13 +2,12 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using TestCatalogAvalonia.Models;
-using TestCatalogAvalonia.ViewModels;
-using TestCatalogAvalonia.ViewModels.AllCatalogPage;
+using Avalonia.ReactiveUI;
+using ReactiveUI;
 
 namespace TestCatalogAvalonia.Views.Pages
 {
-    public partial class AllCatalogPage : UserControl
+    public class AllCatalogPage : UserControl
     {
         public AllCatalogPage()
         {
@@ -25,9 +24,5 @@ namespace TestCatalogAvalonia.Views.Pages
             (DataContext as AllCatalogPageViewModel).EditItem(this.Parent.Parent.Parent.Parent as Window);
         }
 
-        private void NumberOfPage_PointerPressed(object? sender, PointerPressedEventArgs e)
-        {
-            (DataContext as AllCatalogPageViewModel).ChangePage((int)(sender as Border).DataContext);
-        }
     }
 }

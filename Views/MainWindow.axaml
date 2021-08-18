@@ -1,48 +1,46 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:TestCatalogAvalonia.ViewModels"
-		xmlns:pg="using:TestCatalogAvalonia.Views.Pages"
-		xmlns:converters="using:TestCatalogAvalonia.Converters"
+        xmlns:vm="using:TestCatalogAvalonia.Views"
+				xmlns:pg="using:TestCatalogAvalonia.Views.Pages"
+				xmlns:converters="using:TestCatalogAvalonia.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
-		MinWidth="700" MinHeight="450"
+			  MinWidth="700" MinHeight="500"
         x:Class="TestCatalogAvalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="TestCatalogAvalonia">
-
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-	<Window.Resources>
-		<converters:UserNameConverter x:Key="UserName"/>
-	</Window.Resources>
+        Title="TestCatalogAvalonia"
+				Closing="MainWindow_Closing">
   
-	<Grid ShowGridLines="False"
-		  ColumnDefinitions="9*,*">
-		<TabControl Grid.ColumnSpan="2">
-			<TabItem Header="Main">
+	<Grid ShowGridLines="True"
+				ColumnDefinitions="5*,*"
+        RowDefinitions="*,9*">
+    
+		<TabControl Grid.ColumnSpan="2" Grid.RowSpan="2"
+					x:Name="tc_MainMenu">
+			<TabItem Header="Main"
+					 PointerPressed="tc_PointerPressed">
 				
 			</TabItem>
-			<TabItem Header="AllCatalog">
-				<pg:AllCatalogPage x:Name="allCatalogPage" DataContext="{Binding AllCatalogPageContent}"/>
+			<TabItem Header="AllCatalog"
+					 PointerPressed="tc_PointerPressed">
+				<pg:AllCatalogPage x:Name="allCatalogPage" 
+								   DataContext="{Binding AllCatalogPageContent}"/>
 			</TabItem>
-			<TabItem Header="Favorits">
+			<TabItem Header="Favorits"
+					 PointerPressed="tc_PointerPressed">
         
 			</TabItem>
 		</TabControl>
-		<StackPanel Grid.Column="1" >
-			<Viewbox>
-				<ComboBox PlaceholderText="{Binding User, Converter={StaticResource UserName}}"
-									HorizontalAlignment="Right">
+    <Viewbox Grid.Column="1">
+			<StackPanel Orientation="Horizontal">
+					<ComboBox PlaceholderText="{Binding User.Name}"
+							  HorizontalAlignment="Right">
 
-				</ComboBox>
-			</Viewbox>
-			<Viewbox>
-				<Button Command="{Binding btn_AddingItem_Click}"
-                CommandParameter="{Binding $parent[Window]}">Add Item</Button>
-			</Viewbox>
-		</StackPanel>
+					</ComboBox>
+					<Button Command="{Binding btn_AddingItem_Click}"
+			            CommandParameter="{Binding $parent[Window]}">Add Item</Button>
+			</StackPanel>
+    </Viewbox>
 	</Grid>
 </Window>

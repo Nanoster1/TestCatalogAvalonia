@@ -1,54 +1,46 @@
-﻿using Newtonsoft.Json;
+﻿using Avalonia;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using Newtonsoft.Json;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reactive;
+using System.Reflection;
+using System.Threading.Tasks;
+using TestCatalogAvalonia.Converters;
 
 namespace TestCatalogAvalonia.Models
 {
-    public class ApparelItem: IEquatable<ApparelItem>
+    public class ApparelItem: ReactiveObject, ICloneable<ApparelItem>
     {
-        public ApparelItem(string name = "NameNotFound")
+        [Reactive, JsonProperty] public string Name { get; set; } = string.Empty;
+
+        [JsonProperty] public List<string> Tags { get; set; } = new List<string>();
+
+        [Reactive, JsonProperty] public string ImageSource { get; set; } = "/Assets/ImageNotFound.jpg";
+
+        public void Save()
         {
-            Name = name;
+            var imagePath = $"{FileWorker.GetApparellItemFolder(Name)}\\{Name}.png";
+            new Bitmap(ImageSource).Save(imagePath);
+            ImageSource = imagePath.TrimStart(Environment.CurrentDirectory.ToCharArray());
+            var json = JsonConvert.SerializeObject(this);
+            File.WriteAllText($"{FileWorker.GetApparellItemFolder(Name)}\\{Name}.json", json);
         }
 
+        public static ApparelItem? GetApparelItem(string path) => JsonConvert.DeserializeObject<ApparelItem>(File.ReadAllText(path));
 
-        private string name;
-        [JsonProperty]
-        public string Name { get { return name; } set { name = value; NameUpdate(value); } }
-
-
-        public List<string> Tags { get; set; } = new List<string>();
-
-
-
-        private string imageSource = "/Assets/ImageNotFound.jpg";
-        public string ImageSource { get { return imageSource; } set { imageSource = value; ImageSourceUpdate(value); } }
-
-
-
-        public event Action<string> ImageSourceUpdate = (string value) => { };
-
-        public event Action<string> NameUpdate = (string value) => { };
-
-        public static void SaveApparelItem(ApparelItem item, string oldName)
+        public ApparelItem Clone()
         {
-            var json = JsonConvert.SerializeObject(item);
-            File.WriteAllText($"{FileWorker.ApparellItemFolder(item.Name)}\\{item.Name}.json", json);
-        }
-        public static ApparelItem? GetApparelItem(string path)
-        {
-            return JsonConvert.DeserializeObject<ApparelItem>(File.ReadAllText(path));
-        }
-        public static void DeleteApparelItem(string name)
-        {
-
-            Directory.Delete(FileWorker.ApparellItemFolder(name).FullName, true);
-        }
-
-        public bool Equals(ApparelItem? other)
-        {
-            return Name == other.Name;
+            return new() 
+            {
+                Name = Name,
+                Tags = Tags,
+                ImageSource = ImageSource
+            };
         }
     }
 }

@@ -18,14 +18,10 @@ namespace TestCatalogAvalonia.Models
         }
         public static void SaveUser(string name)
         {
-            File.WriteAllText($"{Environment.CurrentDirectory}\\ActiveUser.txt", name);
+            ActiveUser = new User(name);
             string jsonStr = JsonConvert.SerializeObject(new User(name));
             File.WriteAllText(FileWorker.UserFolder.FullName + "\\UserInfo.json", jsonStr);
         }
-        public static string? ActiveUser
-        {
-            get => File.ReadAllText($"{Environment.CurrentDirectory}\\ActiveUser.txt");
-            set => File.WriteAllText($"{Environment.CurrentDirectory}\\ActiveUser.txt", value);
-        }
+        public static User ActiveUser { get; set; } = new(string.Empty);
     }
 }
