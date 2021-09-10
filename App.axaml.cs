@@ -21,7 +21,6 @@ namespace TestCatalogAvalonia
                     DataContext = new SelectionUserWindowViewModel(),
                 };
             }
-
             base.OnFrameworkInitializationCompleted();
         }
     }

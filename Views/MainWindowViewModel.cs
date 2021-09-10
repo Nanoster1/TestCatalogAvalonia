@@ -5,6 +5,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Linq;
 using TestCatalogAvalonia.Models;
@@ -14,14 +15,24 @@ namespace TestCatalogAvalonia.Views
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private SourceCache<ApparelItem, string> _allItems = new(x => x.Name);
-        private SourceCache<Tag, string> _allTags = new(x => x.Name);
+        private readonly SourceCache<ApparelItem, string> _allItems = new(item => item.Name);
+        private readonly SourceCache<Tag, string> _allTags = new(tag => tag.Name);
+        private readonly SourceCache<ItemSet, string> _allItemSets = new(itemSet => itemSet.Name);
 
         public MainWindowViewModel()
         {
-            _allItems.Edit(x => x.Load(Services.GetAllApparelItems()));
-            _allTags.Edit(x => x.Load(Services.GetAllTags()));
+            var allItems = Services.GetAllApparelItems();
+            var allTags = Services.GetAllTags();
+            var allItemSets = Services.GetAllItemSets();
+
+            allItemSets.ForEach(itemSet => itemSet.FillItems(allItems));
+
+            _allItems.Edit(x => x.Load(allItems));
+            _allTags.Edit(x => x.Load(allTags));
+            _allItemSets.Edit(x => x.Load(allItemSets));
+
             User = User.ActiveUser;
+
             ShowAddingWindow = new();
         }
 
@@ -29,7 +40,9 @@ namespace TestCatalogAvalonia.Views
 
         public Interaction<AddingWindowViewModel, Unit> ShowAddingWindow { get; }
 
-        AllCatalogPageViewModel AllCatalogPageContent => new AllCatalogPageViewModel(_allItems, _allTags);
+        public AllCatalogPageViewModel AllCatalogPageContent => new(_allItems, _allTags);
+
+        public ItemSetsPageViewModel ItemSetsPageContent => new(_allItemSets);
 
         public async void btn_AddingItem_Click()
         {
@@ -45,15 +58,6 @@ namespace TestCatalogAvalonia.Views
                 item.Save();
             }
             Tag.SaveTags(tags);
-        }
-
-        public void DisposeAllUselessThreads(IEnumerable<IDisposable> items)
-        {
-            foreach (var item in items)
-            {
-                item?.Dispose();
-            }
-            GC.Collect();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace TestCatalogAvalonia.Models
         {
             string jsonStr = File.ReadAllText(FileWorker.UserInfo.FullName);
             var user = JsonConvert.DeserializeObject<User>(jsonStr);
+            if (user == null) throw new Exception("User not found");
             return user;
         }
         public static void SaveUser(string name)

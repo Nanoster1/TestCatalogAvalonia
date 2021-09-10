@@ -1,20 +1,14 @@
-﻿using Avalonia;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
+﻿using Avalonia.Media.Imaging;
 using Newtonsoft.Json;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reactive;
-using System.Reflection;
-using System.Threading.Tasks;
-using TestCatalogAvalonia.Converters;
 
 namespace TestCatalogAvalonia.Models
 {
-    public class ApparelItem: ReactiveObject, ICloneable<ApparelItem>
+    public class ApparelItem : ReactiveObject, ICloneable<ApparelItem>, ISaved
     {
         [Reactive, JsonProperty] public string Name { get; set; } = string.Empty;
 
@@ -31,11 +25,9 @@ namespace TestCatalogAvalonia.Models
             File.WriteAllText($"{FileWorker.GetApparellItemFolder(Name)}\\{Name}.json", json);
         }
 
-        public static ApparelItem? GetApparelItem(string path) => JsonConvert.DeserializeObject<ApparelItem>(File.ReadAllText(path));
-
         public ApparelItem Clone()
         {
-            return new() 
+            return new()
             {
                 Name = Name,
                 Tags = Tags,

@@ -24,9 +24,37 @@ namespace TestCatalogAvalonia.Models
             var folders = FileWorker.WardrobeFolder.GetDirectories();
             foreach(var folder in folders)
             {
-                apparelItems.Add(ApparelItem.GetApparelItem(folder?.GetFiles().First(x => x.FullName.Contains(".json"))?.FullName));
+                var item = GetApparelItem(folder?.GetFiles().First(x => x.FullName.Contains(".json"))?.FullName);
+                apparelItems.Add(item);
             }
             return apparelItems;
+        }
+        /// <summary>
+        /// This method is only used in the main window to get all items in ObservableCollection, 
+        /// then pass _allItemSets where needed, 
+        /// it will be more efficient than this method and will update items everywhere
+        /// </summary>
+        /// <returns>Returns all item sets directly from files</returns>
+        public static List<ItemSet> GetAllItemSets()
+        {
+            var itemSets = new List<ItemSet>();
+            var folders = FileWorker.ItemSetsFolder.GetDirectories();
+            foreach(var folder in folders)
+            {
+                var set = GetItemSet(folder.GetFiles().First(x => x.FullName.Contains(".json")).FullName);
+                itemSets.Add(set);
+            }
+            return itemSets;
+        }
+
+        public static ApparelItem? GetApparelItem(string path)
+        {
+            return JsonConvert.DeserializeObject<ApparelItem>(File.ReadAllText(path));
+        }
+
+        public static ItemSet? GetItemSet(string path)
+        {
+            return JsonConvert.DeserializeObject<ItemSet>(File.ReadAllText(path));
         }
 
         /// <summary>

@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestCatalogAvalonia.Views.Pages.ItemSetsPage">
+  <Grid ShowGridLines="True"
+        ColumnDefinitions="*,5*"
+        RowDefinitions="*,5*">
+
+
+    <Grid RowDefinitions="3*,*">
+      <Viewbox>
+        <Label Content="Item Sets"/>
+      </Viewbox>
+      <Viewbox Grid.Row="1">
+        <TextBox Text="{Binding SearchString}"
+                 Watermark="Search"
+                 TextAlignment="Center"/>
+      </Viewbox>
+    </Grid>
+    
+    
+    <ListBox Grid.Row="1"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             Items="{Binding ActiveItemSets}"
+             SelectedItem="{Binding SelectedSet}">
+      
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Name}"/>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+      
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+         <StackPanel/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+  
+  </Grid>
+</UserControl>

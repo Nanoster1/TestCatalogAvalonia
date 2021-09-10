@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Reactive;
 using System.Linq;
 using System;
+using System.Reactive.Disposables;
 
 namespace TestCatalogAvalonia.Views
 {
@@ -24,14 +25,18 @@ namespace TestCatalogAvalonia.Views
 #if DEBUG
             this.AttachDevTools();
 #endif
-            this.WhenActivated(d => d(this.ViewModel
-                .ShowAddingWindow
-                .RegisterHandler(async context => 
-                {
-                    var window = new AddingWindow() { ViewModel = context.Input };
-                    await window.ShowDialog(this);
-                    context.SetOutput(Unit.Default);
-                })));
+            this.WhenActivated(dispoables => 
+            {
+                ViewModel
+                    .ShowAddingWindow
+                    .RegisterHandler(async context =>
+                    {
+                        var window = new AddingWindow() { ViewModel = context.Input };
+                        await window.ShowDialog(this);
+                        context.SetOutput(Unit.Default);
+                    })
+                    .DisposeWith(dispoables);
+            });
         }
 
         private void InitializeComponent()
@@ -50,7 +55,8 @@ namespace TestCatalogAvalonia.Views
                  ContentMessage = "You want to save data?",
                  ButtonDefinitions = ButtonEnum.YesNo,
                  WindowStartupLocation = WindowStartupLocation.CenterOwner
-             }).ShowDialog(this);
+             })
+             .ShowDialog(this);
             if (answer == ButtonResult.Yes)
             {
                 ViewModel.OnClosing();
@@ -59,21 +65,23 @@ namespace TestCatalogAvalonia.Views
             this.Close();
         }
 
-        private async void MainWindow_Closing(object? sender, CancelEventArgs e)
+        private void Menu_SelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
-            
-        }
-
-        private void tc_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
-        {
-            TabItem item = (TabItem)sender;
-            TabControl control = (TabControl)item.Parent;
-            var items = control
-                .Items
-                .OfType<TabItem>()
-                .Where(x => x != item)
-                .Select(x => (x.Content as UserControl)?.DataContext as IDisposable);
-            ViewModel.DisposeAllUselessThreads(items);
+            if (ViewModel == null || e.AddedItems.Count == 0 ||
+                e.AddedItems[0] is not TabItem item || item.Content is not UserControl page) return;
+            GC.Collect(); //dispose useless threads
+            switch (item.Tag)
+            {
+                case "0":
+                    page.DataContext = null; //In work
+                    break;
+                case "1":
+                    page.DataContext = ViewModel.AllCatalogPageContent;
+                    break;
+                case "2":
+                    page.DataContext = ViewModel.ItemSetsPageContent; //In work
+                    break;
+            }
         }
     }
 }

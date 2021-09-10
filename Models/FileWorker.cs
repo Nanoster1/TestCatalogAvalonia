@@ -10,7 +10,7 @@ namespace TestCatalogAvalonia.Models
         {
             get
             {
-                string path = $"{Environment.CurrentDirectory}\\Users";
+                string path = Path.Combine(Environment.CurrentDirectory, "Users");
                 return Directory.CreateDirectory(path);
             }
         }
@@ -18,38 +18,51 @@ namespace TestCatalogAvalonia.Models
         {
             get
             {
-                string path = $"{AllUsersFolder.FullName}\\{User.ActiveUser.Name}";
+                string path = Path.Combine(AllUsersFolder.FullName, User.ActiveUser.Name);
                 return Directory.CreateDirectory(path);
-            }
-        }
-        public static FileInfo? UserInfo
-        {
-            get
-            {
-                string path = $"{UserFolder.FullName}\\UserInfo.json";
-                if (File.Exists(path))
-                    return new FileInfo(path);
-                throw new Exception("User not found");
             }
         }
         public static DirectoryInfo WardrobeFolder
         {
             get
             {
-                string path = $"{UserFolder}\\Wardrobe";
+                string path = Path.Combine(UserFolder.FullName, "Wardrobe");
                 return Directory.CreateDirectory(path);
             }
+        }
+        public static DirectoryInfo ItemSetsFolder
+        {
+            get
+            {
+                string path = Path.Combine(UserFolder.FullName, "ItemSets");
+                return Directory.CreateDirectory(path);
+            }
+        }
+        public static DirectoryInfo GetItemSetFolder(string name)
+        {
+            string path = Path.Combine(ItemSetsFolder.FullName, name);
+            return Directory.CreateDirectory(path);
         }
         public static DirectoryInfo GetApparellItemFolder(string name)
         {
             string path = Path.Combine(WardrobeFolder.FullName, name);
             return Directory.CreateDirectory(path);
         }
+        public static FileInfo? UserInfo
+        {
+            get
+            {
+                string path = Path.Combine(UserFolder.FullName, "UserInfo.json");
+                if (File.Exists(path))
+                    return new FileInfo(path);
+                throw new Exception("User not found");
+            }
+        }
         public static FileInfo TagsFile
         {
             get
             {
-                var path = $"{UserFolder}\\Tags.txt";
+                var path = Path.Combine(UserFolder.FullName, "Tags.txt");
                 if (!File.Exists(path))
                 {
                     File.Create(path).Close();

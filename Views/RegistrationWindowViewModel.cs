@@ -33,8 +33,6 @@ namespace TestCatalogAvalonia.Views
 
         public IReactiveCommand AcceptUser { get; }
 
-        public ValidationContext ValidationContext => new();
-
         private async Task _acceptUser()
         {
             if (string.IsNullOrWhiteSpace(UserName))

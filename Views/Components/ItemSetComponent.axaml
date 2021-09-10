@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TestCatalogAvalonia.Views.Components.ItemSetComponent">
+  
+  <Grid ShowGridLines="True"
+        RowDefinitions="*,*,*,*,*,*,*"
+        ColumnDefinitions="2*,*">
+    <Label Content="{Binding ItemSet.Name}"
+           BorderBrush="Black"
+           BorderThickness="1.5"
+           MaxWidth="500"
+           HorizontalContentAlignment="Center"/>
+    <Button Grid.RowSpan="7" Grid.Column="1" MaxWidth="100" HorizontalAlignment="Left">
+      <Image Source="avares://MessageBox.Avalonia/Assets/error.png"/>
+    </Button>
+    <Image Grid.RowSpan="7" Grid.Column="1"
+           Source="avares://MessageBox.Avalonia/Assets/database.png"/>
+    <Button Grid.RowSpan="7" Grid.Column="1" MaxWidth="100" HorizontalAlignment="Right">
+      <Image Source="/Assets/avalonia-logo.ico"/>
+    </Button>
+      
+  </Grid>
+</UserControl>

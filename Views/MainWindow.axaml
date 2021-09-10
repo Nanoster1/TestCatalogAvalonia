@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:TestCatalogAvalonia.Views"
 				xmlns:pg="using:TestCatalogAvalonia.Views.Pages"
+        xmlns:model="using:TestCatalogAvalonia.Models"
 				xmlns:converters="using:TestCatalogAvalonia.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -9,29 +10,24 @@
 			  MinWidth="700" MinHeight="500"
         x:Class="TestCatalogAvalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="TestCatalogAvalonia"
-				Closing="MainWindow_Closing">
+        Title="TestCatalogAvalonia">
   
 	<Grid ShowGridLines="True"
 				ColumnDefinitions="5*,*"
         RowDefinitions="*,9*">
-    
-		<TabControl Grid.ColumnSpan="2" Grid.RowSpan="2"
-					x:Name="tc_MainMenu">
-			<TabItem Header="Main"
-					 PointerPressed="tc_PointerPressed">
-				
-			</TabItem>
-			<TabItem Header="AllCatalog"
-					 PointerPressed="tc_PointerPressed">
-				<pg:AllCatalogPage x:Name="allCatalogPage" 
-								   DataContext="{Binding AllCatalogPageContent}"/>
-			</TabItem>
-			<TabItem Header="Favorits"
-					 PointerPressed="tc_PointerPressed">
+
+    <TabControl Grid.ColumnSpan="2" Grid.RowSpan="2"
+                SelectionChanged="Menu_SelectionChanged">
+      <TabItem Header="Main" Tag="0">
         
-			</TabItem>
-		</TabControl>
+      </TabItem>
+      <TabItem Header="AllCatalog" Tag="1">
+        <pg:AllCatalogPage/>
+      </TabItem>
+      <TabItem Header="ItemSets" Tag="2">
+        <pg:ItemSetsPage/>
+      </TabItem>
+    </TabControl>
     <Viewbox Grid.Column="1">
 			<StackPanel Orientation="Horizontal">
 					<ComboBox PlaceholderText="{Binding User.Name}"

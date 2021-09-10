@@ -1,17 +1,35 @@
+using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
+using System.Reactive;
+using System.Reactive.Disposables;
+using System.Threading.Tasks;
 
 namespace TestCatalogAvalonia.Views.Pages
 {
-    public class AllCatalogPage : UserControl
+    public class AllCatalogPage : ReactiveUserControl<AllCatalogPageViewModel>
     {
         public AllCatalogPage()
         {
-            InitializeComponent();
+            
+            this.WhenActivated(async disposables =>
+            {
+                InitializeComponent();
+
+                ViewModel?
+                .ShowAddingWindow
+                .RegisterHandler(async (context) =>
+                {
+                    var window = new AddingWindow() { DataContext = context.Input };
+                    await window.ShowDialog(VisualRoot as Window);
+                    context.SetOutput(Unit.Default);
+                })
+                .DisposeWith(disposables);
+            });
         }
 
         private void InitializeComponent()
@@ -21,7 +39,7 @@ namespace TestCatalogAvalonia.Views.Pages
 
         private void CellComponent_DoubleTapped(object? sender, RoutedEventArgs e)
         {
-            (DataContext as AllCatalogPageViewModel).EditItem(this.Parent.Parent.Parent.Parent as Window);
+            ViewModel?.EditItem();
         }
 
     }
