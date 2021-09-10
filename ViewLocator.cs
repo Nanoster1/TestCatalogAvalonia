@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using System;
-using TestCatalogAvalonia.ViewModels;
+using TestCatalogAvalonia.Views;
 
 namespace TestCatalogAvalonia
 {

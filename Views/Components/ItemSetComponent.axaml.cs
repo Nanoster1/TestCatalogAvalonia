@@ -1,11 +1,12 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace TestCatalogAvalonia.Views.Components
 {
-    public partial class CellComponent : UserControl
+    public partial class ItemSetComponent : UserControl
     {
-        public CellComponent()
+        public ItemSetComponent()
         {
             InitializeComponent();
         }
@@ -14,6 +15,5 @@ namespace TestCatalogAvalonia.Views.Components
         {
             AvaloniaXamlLoader.Load(this);
         }
-
     }
 }

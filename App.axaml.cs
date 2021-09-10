@@ -1,9 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using System.Threading;
-using System.Threading.Tasks;
-using TestCatalogAvalonia.ViewModels;
 using TestCatalogAvalonia.Views;
 
 namespace TestCatalogAvalonia
@@ -19,22 +16,11 @@ namespace TestCatalogAvalonia
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                try
+                desktop.MainWindow = new SelectionUserWindow
                 {
-                    desktop.MainWindow = new WelcomeWindow
-                    {
-                        DataContext = new WelcomeWindowViewModel(),
-                    };
-                }
-                catch
-                {
-                    desktop.MainWindow = new RegistrationWindow()
-                    {
-                        DataContext = new RegistrationWindowViewModel(),
-                    };
-                }
+                    DataContext = new SelectionUserWindowViewModel(),
+                };
             }
-
             base.OnFrameworkInitializationCompleted();
         }
     }

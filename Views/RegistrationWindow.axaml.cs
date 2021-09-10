@@ -2,13 +2,18 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using TestCatalogAvalonia.ViewModels;
+using Avalonia.ReactiveUI;
 using MessageBox.Avalonia;
+using ReactiveUI;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reactive;
+using System.Reactive.Disposables;
 
 namespace TestCatalogAvalonia.Views
 {
-    public partial class RegistrationWindow : Window
+    public partial class RegistrationWindow : ReactiveWindow<RegistrationWindowViewModel>
     {
         public RegistrationWindow()
         {
@@ -16,6 +21,7 @@ namespace TestCatalogAvalonia.Views
 #if DEBUG
             this.AttachDevTools();
 #endif
+            this.WhenActivated(RegisterHandlers);
         }
 
         private void InitializeComponent()
@@ -23,17 +29,28 @@ namespace TestCatalogAvalonia.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-
-        private void RegistrationWindow_Closing(object? sender, CancelEventArgs e) => (DataContext as RegistrationWindowViewModel).RegistrationWindow_Closing();
-
-
-        private void btnAccept_Click(object sender, RoutedEventArgs e)
+        private void RegisterHandlers(CompositeDisposable disposables)
         {
-            var tbxName = this.FindControl<TextBox>("Name");
-            if (string.IsNullOrEmpty(tbxName.Text))
-                MessageBoxManager.GetMessageBoxStandardWindow("Error", "You didn't write a name").Show();
-            else
-                (DataContext as RegistrationWindowViewModel).btnAccept_Click(this, tbxName.Text);
+            ViewModel
+                .ShowWelcomeWindow
+                .RegisterHandler(context =>
+                {
+                    WelcomeWindow window = new();
+                    window.ViewModel = context.Input;
+                    window.Show();
+                    this.Close();
+                    context.SetOutput(Unit.Default);
+                })
+                .DisposeWith(disposables);
+
+            ViewModel
+                .DisplayAlert
+                .RegisterHandler(context =>
+                {
+                    MessageBoxManager.GetMessageBoxStandardWindow("Error", context.Input).ShowDialog(this);
+                    context.SetOutput(Unit.Default);
+                })
+                .DisposeWith(disposables);
         }
     }
 }

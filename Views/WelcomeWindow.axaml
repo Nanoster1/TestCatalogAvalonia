@@ -11,7 +11,8 @@
 				ExtendClientAreaChromeHints="NoChrome"
 				ExtendClientAreaTitleBarHeightHint="-1"
         Closing="WelcomeWindow_Closing"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        CanResize="False">
   
 	<Window.Resources>
 		<converters:BitmapConverter x:Key="variableImage"/>
@@ -24,7 +25,7 @@
 				   Grid.Row="1"
 				   Text="{Binding Greeting}">Ваше имя
 		</TextBlock>
-		<Image Source="{Binding timeIMG, Converter={StaticResource variableImage}}"
+		<Image Source="{Binding TimeIMG, Converter={StaticResource variableImage}}"
 			   Grid.Column="2">
 		</Image>
 	</Grid>

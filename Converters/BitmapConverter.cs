@@ -1,16 +1,14 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Data.Converters;
-using Avalonia.Media;
-using Avalonia.Platform;
-using System;
-using System.Collections.Generic;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using Avalonia.Visuals.Media.Imaging;
+using System;
 using System.Globalization;
-using System.Linq;
+using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using TestCatalogAvalonia.Models;
 
 namespace TestCatalogAvalonia.Converters
 {
@@ -29,36 +27,37 @@ namespace TestCatalogAvalonia.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+
             if (value == null)
                 return null;
 
-            if (value is string rawUri)
+            else if (value is string rawUri)
             {
-                Uri uri;
-
-                // Allow for assembly overrides
-                if (rawUri.StartsWith("avares://"))
-                {
-                    uri = new Uri(rawUri);
-                }
-                else
-                {
-                    string assemblyName = Assembly.GetEntryAssembly().GetName().Name;
-                    uri = new Uri($"avares://{assemblyName}{rawUri}");
-                }
-
-                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
                 try
                 {
-                    var asset = assets.Open(uri);
-                    return new Bitmap(asset);
+                    var path = Path.Combine(Environment.CurrentDirectory, rawUri);
+                    return new Bitmap(path).CreateScaledBitmap(PixelSize.FromSizeWithDpi(new Size(300, 250), 72), BitmapInterpolationMode.LowQuality);
                 }
                 catch
                 {
-                   return new Bitmap(rawUri);
+                    Uri uri;
+
+                    if (rawUri.StartsWith("avares://"))
+                    {
+                        uri = new Uri(rawUri);
+                    }
+                    else
+                    {
+                        string assemblyName = Assembly.GetEntryAssembly().GetName().Name;
+                        uri = new Uri($"avares://{assemblyName}{rawUri}");
+                    }
+                    var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+                    Stream asset;
+                    try { asset = assets.Open(uri); }
+                    catch { asset = assets.Open(new Uri("Assets/ImageNotFound.jpg")); }
+                    return new Bitmap(asset);
                 }
             }
-
             throw new NotSupportedException();
         }
 

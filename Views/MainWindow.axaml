@@ -1,48 +1,42 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:TestCatalogAvalonia.ViewModels"
-		xmlns:pg="using:TestCatalogAvalonia.Views.Pages"
-		xmlns:converters="using:TestCatalogAvalonia.Converters"
+        xmlns:vm="using:TestCatalogAvalonia.Views"
+				xmlns:pg="using:TestCatalogAvalonia.Views.Pages"
+        xmlns:model="using:TestCatalogAvalonia.Models"
+				xmlns:converters="using:TestCatalogAvalonia.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
-		MinWidth="700" MinHeight="450"
+			  MinWidth="700" MinHeight="500"
         x:Class="TestCatalogAvalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="TestCatalogAvalonia">
-
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-	<Window.Resources>
-		<converters:UserNameConverter x:Key="UserName"/>
-	</Window.Resources>
   
 	<Grid ShowGridLines="True"
-		  ColumnDefinitions="9*,*">
-		<TabControl Grid.ColumnSpan="2">
-			<TabItem Header="Main">
-				
-			</TabItem>
-			<TabItem Header="AllCatalog">
-				<pg:AllCatalogPage x:Name="allCatalogPage" DataContext="{Binding AllCatalogPageContent}"/>
-			</TabItem>
-			<TabItem Header="Favorits">
-        
-			</TabItem>
-		</TabControl>
-		<StackPanel Grid.Column="1" >
-			<Viewbox>
-				<ComboBox PlaceholderText="{Binding User, Converter={StaticResource UserName}}"
-						  HorizontalAlignment="Right">
+				ColumnDefinitions="5*,*"
+        RowDefinitions="*,9*">
 
-				</ComboBox>
-			</Viewbox>
-			<Viewbox>
-				<Button Command="{Binding btn_AddingItem_Click}"
-                CommandParameter="{Binding $parent[Window]}">Add Item</Button>
-			</Viewbox>
-		</StackPanel>
+    <TabControl Grid.ColumnSpan="2" Grid.RowSpan="2"
+                SelectionChanged="Menu_SelectionChanged">
+      <TabItem Header="Main" Tag="0">
+        
+      </TabItem>
+      <TabItem Header="AllCatalog" Tag="1">
+        <pg:AllCatalogPage/>
+      </TabItem>
+      <TabItem Header="ItemSets" Tag="2">
+        <pg:ItemSetsPage/>
+      </TabItem>
+    </TabControl>
+    <Viewbox Grid.Column="1">
+			<StackPanel Orientation="Horizontal">
+					<ComboBox PlaceholderText="{Binding User.Name}"
+							  HorizontalAlignment="Right">
+
+					</ComboBox>
+					<Button Command="{Binding btn_AddingItem_Click}"
+			            CommandParameter="{Binding $parent[Window]}">Add Item</Button>
+			</StackPanel>
+    </Viewbox>
 	</Grid>
 </Window>

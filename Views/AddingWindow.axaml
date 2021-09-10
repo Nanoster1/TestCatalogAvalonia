@@ -25,7 +25,10 @@
 		</Viewbox>
 
     <Viewbox  Grid.Column="1">
-		  <TextBox Text="{Binding LabelName}"/>
+		  <TextBox Text="{Binding Item.Name}"
+				       Watermark="Name Not Found"
+               TextAlignment="Center"
+               MinWidth="200"/>
     </Viewbox>
 
     <Viewbox Grid.Column="2" Grid.Row="1" 
@@ -35,14 +38,13 @@
               CommandParameter="{Binding $parent[Window]}">Open File
       </Button>
 		</Viewbox>
-
-		<Image  Source="{Binding ImageSource, Converter={StaticResource ImageSourceConverter}}"
+		<Image  Source="{Binding Item.ImageSource, Converter={StaticResource ImageSourceConverter}}"
 			      Grid.Column="1" Grid.Row="1"/>
 
     <ScrollViewer Grid.Column="1" Grid.Row="2" Grid.RowSpan="2">
       <ItemsRepeater Items="{Binding AllTags}" ElementPrepared="AddingWindow_ElementPrepared">
         <ItemsRepeater.Layout>
-          <UniformGridLayout ItemsStretch="Uniform"/>
+          <StackLayout DisableVirtualization="False"/>
         </ItemsRepeater.Layout>
         <ItemsRepeater.ItemTemplate>
           <DataTemplate>

@@ -32,11 +32,17 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
     <PackageReference Include="MessageBox.Avalonia" Version="1.5.1" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.6.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="14.1.1" />
+    <PackageReference Include="ReactiveUI.Validation" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\Pages\AllCatalogPage.axaml.cs">
       <DependentUpon>AllCatalogPage.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Icons\" />
   </ItemGroup>
 </Project>
